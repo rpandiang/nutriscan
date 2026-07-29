@@ -14,15 +14,15 @@ There is no free, accurate image-recognition model — especially for Indian and
 index.html      Markup / screens
 style.css        Claude-inspired dark/light theme, layout, components
 app.js            All app logic: camera, search, USDA lookup, manual entry, rendering
-foods.json        Bundled nutrition database — 178 dishes across Indian, American, Chinese, Japanese, Korean, Thai, Vietnamese, Mexican, Italian, and general foods
+foods.json        Bundled nutrition database — 207 dishes across Indian, American, Chinese, Japanese, Korean, Thai, Vietnamese, Mexican, Italian, Mediterranean, Seafood, and general foods
 .gitignore
 README.md
 ```
 
 ## How it works
 
-1. **Capture (optional)** — tap the camera button for a live photo (falls back to your device's native photo picker if the browser doesn't support live camera access), or tap "Skip photo" to go straight to search.
-2. **Search & confirm** — type what you ate (e.g. "dosa", "biryani", "paneer tikka", "pizza"). Matches from the bundled `foods.json` list appear instantly as you type — no network call, works offline.
+1. **Capture (optional)** — tap the camera button for a live photo (falls back to your device's native photo picker if the browser doesn't support live camera access), or tap "Skip photo" to go straight to search. The photo is just for your own reference — the app never analyzes the image itself.
+2. **Search & confirm** — after the photo, type what you ate (e.g. "dosa", "biryani", "paneer tikka", "pizza") into the search box that appears. Matches from the bundled `foods.json` list appear instantly as you type — no network call, works offline.
 3. **Search online (optional)** — if it's not in the bundled list, tap "Search online" to query **USDA FoodData Central**, a free public US government nutrition database, live over the network. No signup is required to try it (it uses the public `DEMO_KEY`, which is rate-limited — see below to get your own free key with higher limits).
 4. **Enter manually (fallback)** — if nothing matches, type in the nutrition facts yourself.
 5. **Results** — shows the food name, portion, a servings stepper (½ increments) that scales every number live, calories, macro bars (protein/carbs/fat), and fiber/sugar/sodium.
@@ -63,12 +63,14 @@ To remove that limit:
 
 ## What's in the bundled list
 
-178 dishes across cuisines, so the instant offline search works well beyond just Indian food:
+207 dishes across cuisines, so the instant offline search works well beyond just Indian food:
 
 | Cuisine | Items |
 |---|---|
 | Indian (breads, rice, curries, South Indian, snacks, tandoor, desserts, drinks) | 70 |
 | American | 46 |
+| Mediterranean (Greek, Levantine, Spanish) | 15 |
+| Seafood | 14 |
 | Chinese | 17 |
 | Japanese | 12 |
 | Korean | 6 |
