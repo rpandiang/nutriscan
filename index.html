@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Food Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="brand">Food Analyzer</h1>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.5" />
+          <path d="M12 2.5v2.5M12 19v2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2.5 12h2.5M19 12h2.5M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+        </svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+        </svg>
+      </button>
+    </header>
+
+    <main class="app-main">
+      <!-- Capture screen -->
+      <section id="screen-capture" class="screen active">
+        <button id="capture-btn" class="capture-btn" aria-label="Add a food photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 8a2 2 0 0 1 2-2h1.2l.9-1.5A2 2 0 0 1 9.83 3.5h4.34a2 2 0 0 1 1.73 1L16.8 6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" />
+            <circle cx="12" cy="13" r="3.6" />
+          </svg>
+        </button>
+        <p class="hint">Snap a photo, then tell us what it is</p>
+        <label class="file-fallback">
+          <input type="file" id="file-input" accept="image/*" capture="environment" hidden />
+          <span>Or choose a photo from your device</span>
+        </label>
+        <button id="skip-photo-btn" class="link-btn">Skip photo — just search for a food</button>
+      </section>
+
+      <!-- Live camera screen -->
+      <section id="screen-camera" class="screen">
+        <div class="camera-frame">
+          <video id="camera-video" autoplay playsinline muted></video>
+        </div>
+        <canvas id="capture-canvas" hidden></canvas>
+        <div class="camera-controls">
+          <button id="cancel-camera-btn" class="btn-ghost">Cancel</button>
+          <button id="shutter-btn" class="shutter-btn" aria-label="Capture photo"></button>
+          <span class="camera-controls-spacer" aria-hidden="true"></span>
+        </div>
+        <p class="hint hint-camera">Tap the shutter to capture</p>
+      </section>
+
+      <!-- Search / identify screen -->
+      <section id="screen-search" class="screen">
+        <img id="search-thumb" class="search-thumb" alt="Captured food" hidden />
+
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input
+            id="search-input"
+            type="text"
+            inputmode="search"
+            autocomplete="off"
+            placeholder="What did you eat? e.g. dosa, biryani, paneer tikka"
+          />
+        </div>
+
+        <div id="search-results" class="search-results"></div>
+
+        <div class="search-footer">
+          <button id="search-online-btn" class="btn-secondary">Search online (USDA database)</button>
+          <button id="manual-entry-btn" class="link-btn">Can't find it? Enter nutrition manually</button>
+        </div>
+
+        <button id="back-to-capture-btn" class="link-btn link-btn-muted">&larr; Back</button>
+      </section>
+
+      <!-- Manual entry screen -->
+      <section id="screen-manual" class="screen">
+        <form id="manual-form" class="manual-form">
+          <h2 class="manual-title">Enter nutrition manually</h2>
+          <label class="field">
+            <span>Food name</span>
+            <input type="text" id="manual-name" required placeholder="e.g. Homemade dal" />
+          </label>
+          <label class="field">
+            <span>Portion</span>
+            <input type="text" id="manual-portion" placeholder="e.g. 1 bowl (~250g)" />
+          </label>
+          <div class="field-grid">
+            <label class="field">
+              <span>Calories</span>
+              <input type="number" id="manual-calories" min="0" step="1" required />
+            </label>
+            <label class="field">
+              <span>Protein (g)</span>
+              <input type="number" id="manual-protein" min="0" step="0.1" />
+            </label>
+            <label class="field">
+              <span>Carbs (g)</span>
+              <input type="number" id="manual-carbs" min="0" step="0.1" />
+            </label>
+            <label class="field">
+              <span>Fat (g)</span>
+              <input type="number" id="manual-fat" min="0" step="0.1" />
+            </label>
+            <label class="field">
+              <span>Fiber (g)</span>
+              <input type="number" id="manual-fiber" min="0" step="0.1" />
+            </label>
+            <label class="field">
+              <span>Sugar (g)</span>
+              <input type="number" id="manual-sugar" min="0" step="0.1" />
+            </label>
+            <label class="field">
+              <span>Sodium (mg)</span>
+              <input type="number" id="manual-sodium" min="0" step="1" />
+            </label>
+          </div>
+          <button type="submit" class="btn-primary">Save</button>
+          <button type="button" id="manual-cancel-btn" class="link-btn link-btn-muted">Cancel</button>
+        </form>
+      </section>
+
+      <!-- Results screen -->
+      <section id="screen-results" class="screen">
+        <div class="results-card">
+          <img id="result-image" class="result-thumb" alt="Captured food" hidden />
+          <div id="results-content" class="results-content"></div>
+        </div>
+        <button id="scan-again-btn" class="btn-primary">Scan Another</button>
+      </section>
+
+      <!-- Error screen -->
+      <section id="screen-error" class="screen">
+        <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9.5" />
+          <path d="M12 8v5M12 16h.01" />
+        </svg>
+        <p id="error-message">Something went wrong.</p>
+        <div class="error-actions">
+          <button id="retry-btn" class="btn-primary">Try Again</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
